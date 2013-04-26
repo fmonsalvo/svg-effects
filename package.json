@@ -1,0 +1,31 @@
+{
+  "name": "svg-effects",
+  "version": "0.0.0",
+  "description": "An SVG effects library",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fmonsalvo/svg-effects.git"
+  },
+  "keywords": [
+    "SVG",
+    "Effects",
+    "Library"
+  ],
+  "author": "Franco Monsalvo",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "05b74330d3f1dc4dc3b29c7b0f97bad8e7ad2144",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt-contrib-csslint": "~0.1.2",
+    "grunt-contrib-cssmin": "~0.6.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-clean": "~0.4.1"
+  }
+}

@@ -1,0 +1,6 @@
+#########################
+# Ignoring Build Folder #
+#########################
+build/
+node_modules/
+sourcemap/
