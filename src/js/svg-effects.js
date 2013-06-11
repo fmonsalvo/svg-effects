@@ -20,7 +20,14 @@ var effects = (function() {
       return;
     }
 
-    var tplSource = 'innerShadow',
+    var tplSource = '<filter class="inset-shadow" x0="-50%" y0="-50%" width="200%" height="200%">' +
+                      '<feGaussianBlur in="SourceAlpha" stdDeviation="{{blur}}" result="blur"/>' +
+                      '<feOffset dy="{{dx}}" dx="{{dy}}"/>' +
+                      '<feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff"/>' +
+                      '<feFlood flood-color="black" flood-opacity="1"/>' +
+                      '<feComposite in2="shadowDiff" operator="in"/>' +
+                      '<feComposite in2="SourceGraphic" operator="over"/>' +
+                    '</filter>',
         template = Handlebars.compile(tplSource),
         config = {
           'dx' : dx,
@@ -36,6 +43,10 @@ var effects = (function() {
     }
 
     var effectID = cachedFilter ? cachedFilter.filterId : generateFilterId('insetShadow');
+    if (cachedFilter) {
+      addToCache('insetShadow', config, effectID);
+    }
+
     el.style = 'filter: url(' + effectID + ')';
   },
 
@@ -44,6 +55,10 @@ var effects = (function() {
 
   addBlur = function() {
 
+  },
+
+  addToCache = function(filterType, config, id) {
+    filterCache[filterType].push({config: config, id: id});
   },
 
   findInCache = function(filterType, config) {
@@ -67,6 +82,6 @@ var effects = (function() {
   generateFilterId = function(filterType) {
     var filters = filterCache[filterType];
     return filterType + (filters.length + 1);
-  };
+  }
 
 })();
