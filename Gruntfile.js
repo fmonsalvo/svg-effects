@@ -26,6 +26,15 @@ module.exports = function(grunt) {
         }
       }
     },
+    intern: {
+      dev: {
+          options: {
+              runType: 'runner', // defaults to 'client'
+              config: 'tests/intern',
+              reporters: [ 'console', 'lcov' ]
+          }
+      }
+    },
     clean: ["sourcemap", "build"]
   });
 
@@ -34,6 +43,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-csslint');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('intern');
+
+  //grunt.registerTask('test', [ 'intern' ]);
 
   // Default task(s).
   grunt.registerTask('build', ['clean', 'jshint', 'csslint', 'uglify', 'cssmin']);

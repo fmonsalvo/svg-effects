@@ -2,7 +2,7 @@ var effects = (function() {
 
   var filtersContainer = (function() {
     container = document.createElement('svg');
-    container.classList.add('filters');
+    container.classList.add('filters-container');
     document.body.appendChild(container);
     return container;
   })(),
@@ -82,6 +82,6 @@ var effects = (function() {
   generateFilterId = function(filterType) {
     var filters = filterCache[filterType];
     return filterType + (filters.length + 1);
-  }
+  };
 
 })();
