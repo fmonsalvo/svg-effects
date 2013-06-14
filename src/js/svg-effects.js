@@ -1,7 +1,7 @@
 var effects = (function() {
 
   var filtersContainer = (function() {
-    container = document.createElement('svg');
+    var container = document.createElement('svg');
     container.classList.add('filters-container');
     document.body.appendChild(container);
     return container;

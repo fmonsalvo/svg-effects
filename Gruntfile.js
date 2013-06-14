@@ -3,9 +3,30 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    //js linting
     jshint: {
-      all: ['Gruntfile.js', 'src/js/*.js']
+      all: ['Gruntfile.js', 'src/js/*.js'],
+      options: {
+        curly: true,
+        eqeqeq: true,
+        immed: true,
+        latedef: true,
+        newcap: true,
+        noarg: true,
+        sub: true,
+        undef: false,
+        eqnull: true,
+        browser: true,
+        nomen: false
+      },
+      globals: {
+        console: true,
+        require: true,
+        define: true,
+        $: true
+      }
     },
+    // JS Minification
     uglify: {
       compress: {
         options: {
@@ -16,9 +37,11 @@ module.exports = function(grunt) {
         }
       }
     },
+    //CSS Linting
     csslint: {
       src: 'src/css/*.css'
     },
+    // CSS Minification
     cssmin: {
       compress: {
         files: {
@@ -26,6 +49,11 @@ module.exports = function(grunt) {
         }
       }
     },
+    // jasmine testsuites
+    jasmine: {
+      files: ['js/tests/SpecRunner.html']
+    },
+    // Run Intern Functional Tests
     intern: {
       dev: {
           options: {
@@ -35,6 +63,7 @@ module.exports = function(grunt) {
           }
       }
     },
+    // clean build directory
     clean: ["sourcemap", "build"]
   });
 
@@ -43,11 +72,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-csslint');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('intern');
+
 
   //grunt.registerTask('test', [ 'intern' ]);
 
   // Default task(s).
-  grunt.registerTask('build', ['clean', 'jshint', 'csslint', 'uglify', 'cssmin']);
+  grunt.registerTask('build', ['clean', 'jshint', 'csslint', 'jasmine', 'uglify', 'cssmin']);
 
 };
