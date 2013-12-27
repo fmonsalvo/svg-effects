@@ -42,7 +42,38 @@ var effects = (function() {
     el.style += 'filter: url(' + effectID + ')';
   },
 
-  addDropShadow = function(el, dx, dy, color, blur) {
+  addDropShadow = function(el, dx, dy, color, radius) {
+    if (typeof el !== 'string') {
+      return;
+    }
+
+    el = document.querySelector(el);
+
+    if (!el) {
+      return;
+    }
+
+    var tplSource = '<filter id="drop-shadow">' +
+                      '<feGaussianBlur in="SourceAlpha" stdDeviation="{{radius}}"/>' +
+                      '<feOffset dx="{{dx}}" dy="{{dy}}" result="offsetblur"/>' +
+                      '<feFlood flood-color="{{color}}"/>' +
+                      '<feComposite in2="offsetblur" operator="in"/>' +
+                      '<feMerge>' +
+                        '<feMergeNode/>' +
+                        '<feMergeNode in="SourceGraphic"/>' +
+                      '</feMerge>' +
+                    '</filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'dx'     : dx,
+        'dy'     : dy,
+        'color'  : color,
+        'radius' : radius
+      },
+      effectID;
+    
+    effectID = this.createFilter('blur', config, template);
+    el.style += 'filter: url(' + effectID + ')';
   },
 
   addBlur = function(el, radius) {
