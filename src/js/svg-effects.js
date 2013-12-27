@@ -95,6 +95,26 @@ var effects = (function() {
     el.style += 'filter: url(' + effectID + ')';
   },
 
+  addGrayScale = function(amount) {
+    el = findElement(el);
+
+    var tplSource = '<filter id="grayscale">' +
+                      '<feColorMatrix type="matrix"' +
+                          'values="(0.2126 + 0.7874 * [1 - amount]) (0.7152 - 0.7152 * [1 - amount]) (0.0722 - 0.0722 * [1 - amount]) 0 0' +
+                            '(0.2126 - 0.2126 * [1 - amount]) (0.7152 + 0.2848 * [1 - amount]) (0.0722 - 0.0722 * [1 - amount]) 0 0' +
+                            '(0.2126 - 0.2126 * [1 - amount]) (0.7152 - 0.7152 * [1 - amount]) (0.0722 + 0.9278 * [1 - amount]) 0 0' +
+                          '0 0 0 1 0"/>' +
+                    '</filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'amount' : amount
+      },
+      effectID;
+    
+    effectID = this.createFilter('grayscale', config, template);
+    el.style += 'filter: url(' + effectID + ')';
+  },
+
   createFilter = function(filterName, config, template) {
     var filter,
         effectID,
