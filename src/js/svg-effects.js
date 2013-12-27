@@ -46,6 +46,16 @@ var effects = (function() {
   },
 
   addBlur = function(el, radius) {
+    if (typeof el !== 'string') {
+      return;
+    }
+
+    el = document.querySelector(el);
+
+    if (!el) {
+      return;
+    }
+
     var tplSource = '<filter id="blur">' +
                     '<feGaussianBlur stdDeviation="{{radius}}" edgeMode="none" >' +
                     '</filter>',
