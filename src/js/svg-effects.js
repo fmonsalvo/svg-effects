@@ -78,13 +78,13 @@ var effects = (function() {
   addContrast = function() {
     el = findElement(el);
 
-    var tplSource = '<filter class="contrast" id="{{id}}">
-                      <feComponentTransfer>
-                          <feFuncR type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
-                          <feFuncG type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
-                          <feFuncB type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
-                      </feComponentTransfer>
-                    </filter>',
+    var tplSource = '<filter class="contrast" id="{{id}}">' +
+                      '<feComponentTransfer>' +
+                          '<feFuncR type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>' +
+                          '<feFuncG type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>' +
+                          '<feFuncB type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>' +
+                      '</feComponentTransfer>' +
+                    '</filter>',
       template = Handlebars.compile(tplSource),
       config = {
         'amount' : amount
