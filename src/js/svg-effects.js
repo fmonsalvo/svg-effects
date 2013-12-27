@@ -35,26 +35,46 @@ var effects = (function() {
           'color' : color,
           'blur' : blur
         },
-        cachedFilter = findInCache('insetShadow', config);
+        effectID;
 
-    if (!cachedFilter) {
-      var filter = template(config);
-      filtersContainer.append(filter);
-    }
+    effectID = this.createFilter('insetShadow', config, template);
 
-    var effectID = cachedFilter ? cachedFilter.filterId : generateFilterId('insetShadow');
-    if (cachedFilter) {
-      addToCache('insetShadow', config, effectID);
-    }
-
-    el.style = 'filter: url(' + effectID + ')';
+    el.style += 'filter: url(' + effectID + ')';
   },
 
   addDropShadow = function(el, dx, dy, color, blur) {
   },
 
-  addBlur = function() {
+  addBlur = function(el, radius) {
+    var tplSource = '<filter id="blur">' +
+                    '<feGaussianBlur stdDeviation="{{radius}}" edgeMode="none" >' +
+                    '</filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'radius' : radius
+      },
+      effectID;
+    
+    effectID = this.createFilter('blur', config, template);
+    el.style += 'filter: url(' + effectID + ')';
+  },
 
+  createFilter = function(filterName, config, template) {
+    var filter,
+        effectID,
+        cachedFilter = findInCache(filterName, config);
+
+    if (!cachedFilter) {
+      filter = template(config);
+      filtersContainer.append(filter);
+    }
+
+    effectID = cachedFilter ? cachedFilter.filterId : generateFilterId(filterName);
+    if (cachedFilter) {
+      addToCache(filterName, config, effectID);
+    }
+
+    return effectID;
   },
 
   addToCache = function(filterType, config, id) {
