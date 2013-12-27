@@ -20,7 +20,7 @@ var effects = (function() {
       return;
     }
 
-    var tplSource = '<filter class="inset-shadow" x0="-50%" y0="-50%" width="200%" height="200%">' +
+    var tplSource = '<filter id="{{id}}" class="inset-shadow" x0="-50%" y0="-50%" width="200%" height="200%">' +
                       '<feGaussianBlur in="SourceAlpha" stdDeviation="{{blur}}" result="blur"/>' +
                       '<feOffset dy="{{dx}}" dx="{{dy}}"/>' +
                       '<feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff"/>' +
@@ -56,7 +56,7 @@ var effects = (function() {
       return;
     }
 
-    var tplSource = '<filter id="blur">' +
+    var tplSource = '<filter class="blur" id="{{id}}">' +
                     '<feGaussianBlur stdDeviation="{{radius}}" edgeMode="none" >' +
                     '</filter>',
       template = Handlebars.compile(tplSource),
@@ -69,21 +69,50 @@ var effects = (function() {
     el.style += 'filter: url(' + effectID + ')';
   },
 
+  addContrast = function() {
+    if (typeof el !== 'string') {
+      return;
+    }
+
+    el = document.querySelector(el, amount);
+
+    if (!el) {
+      return;
+    }
+
+    var tplSource = '<filter class="contrast" id="{{id}}">
+                      <feComponentTransfer>
+                          <feFuncR type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
+                          <feFuncG type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
+                          <feFuncB type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
+                      </feComponentTransfer>
+                    </filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'amount' : amount
+      },
+      effectID;
+    
+    effectID = this.createFilter('contrast', config, template);
+    el.style += 'filter: url(' + effectID + ')';
+  },
+
   createFilter = function(filterName, config, template) {
     var filter,
         effectID,
         cachedFilter = findInCache(filterName, config);
-
-    if (!cachedFilter) {
+    
+    effectID = cachedFilter ? cachedFilter.filterId : generateFilterId(filterName);
+    
+    if (cachedFilter) {
+      filtersContainer.append(cachedFilter);
+    } else {
+      addToCache(filterName, config, effectID);
+      config.id = effectID;
       filter = template(config);
       filtersContainer.append(filter);
     }
-
-    effectID = cachedFilter ? cachedFilter.filterId : generateFilterId(filterName);
-    if (cachedFilter) {
-      addToCache(filterName, config, effectID);
-    }
-
+    
     return effectID;
   },
 
