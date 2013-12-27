@@ -10,15 +10,7 @@ var effects = (function() {
   filterCache = {},
 
   addInsetShadow = function(el, dx, dy, color, blur) {
-    if (typeof el !== 'string') {
-      return;
-    }
-
-    el = document.querySelector(el);
-
-    if (!el) {
-      return;
-    }
+    el = findElement(el);
 
     var tplSource = '<filter id="{{id}}" class="inset-shadow" x0="-50%" y0="-50%" width="200%" height="200%">' +
                       '<feGaussianBlur in="SourceAlpha" stdDeviation="{{blur}}" result="blur"/>' +
@@ -43,15 +35,7 @@ var effects = (function() {
   },
 
   addDropShadow = function(el, dx, dy, color, radius) {
-    if (typeof el !== 'string') {
-      return;
-    }
-
-    el = document.querySelector(el);
-
-    if (!el) {
-      return;
-    }
+    el = findElement(el);
 
     var tplSource = '<filter class="drop-shadow" id="{{id}}">' +
                       '<feGaussianBlur in="SourceAlpha" stdDeviation="{{radius}}"/>' +
@@ -77,16 +61,7 @@ var effects = (function() {
   },
 
   addBlur = function(el, radius) {
-    if (typeof el !== 'string') {
-      return;
-    }
-
-    el = document.querySelector(el);
-
-    if (!el) {
-      return;
-    }
-
+    el = findElement(el);
     var tplSource = '<filter class="blur" id="{{id}}">' +
                     '<feGaussianBlur stdDeviation="{{radius}}" edgeMode="none" >' +
                     '</filter>',
@@ -101,23 +76,15 @@ var effects = (function() {
   },
 
   addContrast = function() {
-    if (typeof el !== 'string') {
-      return;
-    }
+    el = findElement(el);
 
-    el = document.querySelector(el, amount);
-
-    if (!el) {
-      return;
-    }
-
-    var tplSource = '<filter class="contrast" id="{{id}}">
-                      <feComponentTransfer>
-                          <feFuncR type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
-                          <feFuncG type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
-                          <feFuncB type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>
-                      </feComponentTransfer>
-                    </filter>',
+    var tplSource = '<filter class="contrast" id="{{id}}">' +
+                      '<feComponentTransfer>' +
+                          '<feFuncR type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>' +
+                          '<feFuncG type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>' +
+                          '<feFuncB type="linear" slope="{{amount}}" intercept="-(0.5 * {{amount}}) + 0.5"/>' +
+                      '</feComponentTransfer>' +
+                    '</filter>',
       template = Handlebars.compile(tplSource),
       config = {
         'amount' : amount
@@ -172,6 +139,16 @@ var effects = (function() {
   generateFilterId = function(filterType) {
     var filters = filterCache[filterType];
     return filterType + (filters.length + 1);
+  },
+
+  findElement = function(el) {
+    if (el instanceof HTMLElement) {
+      return el;
+    } else if (typeof el === 'string') {
+      return document.querySelector(el);
+    } else {
+      return null;
+    }
   };
 
 })();
