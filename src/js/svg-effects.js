@@ -53,7 +53,7 @@ var effects = (function() {
       return;
     }
 
-    var tplSource = '<filter id="drop-shadow">' +
+    var tplSource = '<filter class="drop-shadow" id="{{id}}">' +
                       '<feGaussianBlur in="SourceAlpha" stdDeviation="{{radius}}"/>' +
                       '<feOffset dx="{{dx}}" dy="{{dy}}" result="offsetblur"/>' +
                       '<feFlood flood-color="{{color}}"/>' +
