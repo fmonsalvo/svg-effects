@@ -77,16 +77,7 @@ var effects = (function() {
   },
 
   addBlur = function(el, radius) {
-    if (typeof el !== 'string') {
-      return;
-    }
-
-    el = document.querySelector(el);
-
-    if (!el) {
-      return;
-    }
-
+    el = findElement(el);
     var tplSource = '<filter class="blur" id="{{id}}">' +
                     '<feGaussianBlur stdDeviation="{{radius}}" edgeMode="none" >' +
                     '</filter>',
@@ -172,6 +163,16 @@ var effects = (function() {
   generateFilterId = function(filterType) {
     var filters = filterCache[filterType];
     return filterType + (filters.length + 1);
-  };
+  },
+
+  findElement = function(el) {
+    if (el instanceof HTMLElement) {
+      return el;
+    } else if (typeof el === 'string') {
+      return document.querySelector(el);
+    } else {
+      return null;
+    }
+  }
 
 })();
