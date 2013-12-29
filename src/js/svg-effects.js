@@ -138,10 +138,10 @@ var effects = (function() {
   addSaturation = function(el, amount) {
     el = findElement(el);
 
-    var tplSource = ' <filter id={{id}} class="saturate">
-                        <feColorMatrix type="saturate"
-                          values="(1 - {{amount}})"/>
-                      </filter>',
+    var tplSource = ' <filter id={{id}} class="saturate">' +
+                        '<feColorMatrix type="saturate"' +
+                          'values="(1 - {{amount}})"/>' +
+                      '</filter>',
       template = Handlebars.compile(tplSource),
       config = {
         'amount' : amount
