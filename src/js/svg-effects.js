@@ -135,6 +135,23 @@ var effects = (function() {
     el.style += 'filter: url(' + effectID + ')';
   },
 
+  addSaturation = function(el, amount) {
+    el = findElement(el);
+
+    var tplSource = ' <filter id={{id}} class="saturate">
+                        <feColorMatrix type="saturate"
+                          values="(1 - {{amount}})"/>
+                      </filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'amount' : amount
+      },
+      effectID;
+    
+    effectID = this.createFilter('saturate', config, template);
+    el.style += 'filter: url(' + effectID + ')';
+  },
+
   createFilter = function(filterName, config, template) {
     var filter,
         effectID,
