@@ -189,6 +189,24 @@ var effects = (function() {
     el.style += 'filter: url(' + effectID + ')';
   },
 
+  addOpacity = function(el, amount) {
+    el = findElement(el);
+
+    var tplSource = '<filter id={{id}} class="opacity">' +
+                      '<feComponentTransfer>' +
+                        '<feFuncA type="table" tableValues="0 {{amount}}"/>' +
+                      '</feComponentTransfer>' +
+                    '</filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'amount' : amount
+      },
+      effectID;
+    
+    effectID = this.createFilter('opacity', config, template);
+    el.style += 'filter: url(' + effectID + ')';
+  },
+
   createFilter = function(filterName, config, template) {
     var filter,
         effectID,

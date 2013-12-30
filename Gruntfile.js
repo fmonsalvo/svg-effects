@@ -53,16 +53,6 @@ module.exports = function(grunt) {
     jasmine: {
       files: ['js/tests/SpecRunner.html']
     },
-    // Run Intern Functional Tests
-    intern: {
-      dev: {
-          options: {
-              runType: 'runner', // defaults to 'client'
-              config: 'tests/intern',
-              reporters: [ 'console', 'lcov' ]
-          }
-      }
-    },
     // clean build directory
     clean: ["sourcemap", "build"]
   });
@@ -73,10 +63,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
-  grunt.loadNpmTasks('intern');
-
-
-  //grunt.registerTask('test', [ 'intern' ]);
 
   // Default task(s).
   grunt.registerTask('build', ['clean', 'jshint', 'csslint', 'jasmine', 'uglify', 'cssmin']);
