@@ -138,10 +138,10 @@ var effects = (function() {
   addSaturation = function(el, amount) {
     el = findElement(el);
 
-    var tplSource = ' <filter id={{id}} class="saturate">' +
-                        '<feColorMatrix type="saturate"' +
-                          'values="(1 - {{amount}})"/>' +
-                      '</filter>',
+    var tplSource = '<filter id={{id}} class="saturate">' +
+                      '<feColorMatrix type="saturate"' +
+                        'values="(1 - {{amount}})"/>' +
+                    '</filter>',
       template = Handlebars.compile(tplSource),
       config = {
         'amount' : amount
@@ -149,6 +149,23 @@ var effects = (function() {
       effectID;
     
     effectID = this.createFilter('saturate', config, template);
+    el.style += 'filter: url(' + effectID + ')';
+  },
+
+  addHueRotation = function(el, amount) {
+    el = findElement(el);
+
+    var tplSource = '<filter id="{{id}}" class="hue-rotate">' +
+                      '<feColorMatrix type="hueRotate"' +
+                        'values="{{angle}}"/>' +
+                    '</filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'amount' : amount
+      },
+      effectID;
+    
+    effectID = this.createFilter('hue-rotate', config, template);
     el.style += 'filter: url(' + effectID + ')';
   },
 
