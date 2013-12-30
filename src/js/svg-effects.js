@@ -169,6 +169,26 @@ var effects = (function() {
     el.style += 'filter: url(' + effectID + ')';
   },
 
+  addInvert = function(el, amount) {
+    el = findElement(el);
+
+    var tplSource = '<filter id="{{id}}" class="invert">' +
+                      '<feComponentTransfer>' +
+                        '<feFuncR type="table" tableValues="{{amount}} (1 - {{amount}})"/>' +
+                        '<feFuncG type="table" tableValues="{{amount}} (1 - {{amount}})"/>' +
+                        '<feFuncB type="table" tableValues="{{amount}} (1 - {{amount}})"/>' +
+                      '</feComponentTransfer>' +
+                    '</filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'amount' : amount
+      },
+      effectID;
+    
+    effectID = this.createFilter('invert', config, template);
+    el.style += 'filter: url(' + effectID + ')';
+  },
+
   createFilter = function(filterName, config, template) {
     var filter,
         effectID,
