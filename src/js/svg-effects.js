@@ -95,6 +95,26 @@ var effects = (function() {
     el.style += 'filter: url(' + effectID + ')';
   },
 
+  addBrightness = function() {
+    el = findElement(el);
+
+    var tplSource = '<filter id="{{id}}" class="brightness">' +
+                      '<feComponentTransfer>' +
+                        '<feFuncR type="linear" slope="{{amount}}"/>' +
+                        '<feFuncG type="linear" slope="{{amount}}"/>' +
+                        '<feFuncB type="linear" slope="{{amount}}"/>' +
+                      '</feComponentTransfer>' +
+                    '</filter>',
+      template = Handlebars.compile(tplSource),
+      config = {
+        'amount' : amount
+      },
+      effectID;
+    
+    effectID = this.createFilter('brightness', config, template);
+    el.style += 'filter: url(' + effectID + ')';
+  },
+
   addGrayScale = function(amount) {
     el = findElement(el);
 
